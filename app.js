@@ -35,7 +35,6 @@ app.get('/flashcard', (req, res) => {
 })
 
 app.get('/flashcard/:id', (req, res) => {
-  // console.log('req.params.id', req.params.id)
   Cards.getById(req.params.id, (err, card) => {
     if(err) return res.status(400).send(err);
     res.send(card);
@@ -43,7 +42,6 @@ app.get('/flashcard/:id', (req, res) => {
 })
 
 app.get('/answer/:id/:answer', (req, res) => {
-  // console.log('params.id', req.params.id);
   Cards.checkAnswer(req.params.id, req.params.answer, (err, response) => {
     if(err) return res.status(400).send(err);
     res.send(response);
@@ -51,7 +49,6 @@ app.get('/answer/:id/:answer', (req, res) => {
 })
 
 app.post('/flashcard', (req, res) => {
-  // console.log('req.body', req.body);
   Cards.create(req.body, err => {
     if(err) return res.status(400).send(err);
     res.send("card added");
@@ -59,7 +56,6 @@ app.post('/flashcard', (req, res) => {
 })
 
 app.delete('/flashcard/:id', (req, res) => {
-  console.log('req.params.id:', req.params.id);
   Cards.remove(req.params.id, err => {
     if(err) return res.status(400).send(err);
     res.send('card deleted');
@@ -67,7 +63,6 @@ app.delete('/flashcard/:id', (req, res) => {
 })
 
 app.put('/flashcard/:id', (req, res) => {
-  console.log('req.params.id:', req.params.id);
   Cards.edit(req.params.id, req.body, err => {
     if(err) return res.status(400).send(err);
     res.send('card updated');

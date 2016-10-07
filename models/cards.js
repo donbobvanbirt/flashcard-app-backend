@@ -25,7 +25,6 @@ exports.getAll = function(cb) {
 exports.getRand = function(query, cb) {
   exports.getAll((err, cards) => {
     if(err) return cb(err);
-    console.log('query:', query);
 
     let filteredCards;
     if(query.subject) {
@@ -62,7 +61,6 @@ exports.getById = function(id, cb) {
 exports.checkAnswer = function(id, answer, cb) {
   exports.getById(id, (err, card) => {
     if(err) return cb(err);
-    // console.log('card in checkAnswer', card)
     if(card[0].answer === answer) {
       cb(null, 'CORRECT!!')
     } else {
@@ -73,16 +71,12 @@ exports.checkAnswer = function(id, answer, cb) {
 }
 
 exports.add = function(newData, cb) {
-  // newData[id] = uuid();
-  // console.log('newData', newData);
   let json = JSON.stringify(newData);
-
   fs.writeFile(filename, json, cb)
 }
 
 exports.create = function(newItem, cb) {
   newItem.id = uuid();
-  // console.log('newItem', newItem);
   exports.getAll((err, items) => {
     if(err) return cb(err);
 
@@ -99,7 +93,6 @@ exports.remove = function(id, cb) {
     let newItems = items.filter(card => {
       return card.id !== id;
     })
-
     exports.add(newItems, cb);
 
   })
@@ -126,10 +119,7 @@ exports.edit = function(id, body, cb) {
       id:  editingItem[0].id
     };
 
-    // console.log('newItem', newItem);
-
     newItems.push(newItem);
-    // console.log('newItems', newItems);
 
     exports.add(newItems, cb);
 
