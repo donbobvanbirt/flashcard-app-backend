@@ -34,6 +34,14 @@ app.get('/flashcard', (req, res) => {
   })
 })
 
+app.get('/flashcard/:id', (req, res) => {
+  console.log('req.params.id', req.params.id)
+  Cards.getById(req.params.id, (err, card) => {
+    if(err) return res.status(400).send(err);
+    res.send(card);
+  })
+})
+
 app.post('/flashcard', (req, res) => {
   // console.log('req.body', req.body);
   Cards.create(req.body, err => {

@@ -30,7 +30,7 @@ exports.getRand = function(query, cb) {
     let filteredCards;
     if(query.subject) {
       filteredCards = cards.filter(card => {
-        return card.subject === query.subject;
+        return card.subject === query.subject || query.subject.indexOf(card.subject) > -1;
       })
     } else {
       filteredCards = cards;
@@ -38,7 +38,19 @@ exports.getRand = function(query, cb) {
 
     let shuffledCards = lodash.shuffle(filteredCards);
     let card = shuffledCards[0];
-    return cb(null, card.question);
+    return cb(null, [card.question, card.id]);
+  })
+}
+
+exports.getById = function(id, cb) {
+  exports.getAll((err, cards) => {
+    if(err) return cb(err);
+
+    let specificCard = cards.filter(card => {
+      return card.id === id;
+    })
+
+    return cb(null, specificCard)
   })
 }
 
@@ -96,26 +108,10 @@ exports.edit = function(id, body, cb) {
       id:  editingItem[0].id
     };
 
-    // newItem.question = body.question || editingItem[0].question;
-    // newItem.answer = body.answer || editingItem[0].answer;
-    // newItem.subject = body.subject || editingItem[0].subject;
-    //
-
-    // console.log('body.question', body.question);
-    // if(body.question) {
-    //   editingItem.question = body.question;
-    // }
-    // if(body.answer) {
-    //   editingItem.answer = body.answer;
-    // }
-    // if(body.subject) {
-    //   editingItem.subject = body.subject;
-    // }
-
-    console.log('newItem', newItem);
+    // console.log('newItem', newItem);
 
     newItems.push(newItem);
-    console.log('newItems', newItems);
+    // console.log('newItems', newItems);
 
     exports.add(newItems, cb);
 
