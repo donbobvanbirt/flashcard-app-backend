@@ -38,7 +38,12 @@ exports.getRand = function(query, cb) {
 
     let shuffledCards = lodash.shuffle(filteredCards);
     let card = shuffledCards[0];
-    return cb(null, [card.question, card.id]);
+    if(card) {
+      return cb(null, [card.question, card.id]);
+    } else {
+      console.log('err');
+      return cb('Subject not found');
+    }
   })
 }
 
@@ -51,6 +56,19 @@ exports.getById = function(id, cb) {
     })
 
     return cb(null, specificCard)
+  })
+}
+
+exports.checkAnswer = function(id, answer, cb) {
+  exports.getById(id, (err, card) => {
+    if(err) return cb(err);
+    // console.log('card in checkAnswer', card)
+    if(card[0].answer === answer) {
+      cb(null, 'CORRECT!!')
+    } else {
+      cb(null, 'WRONG!')
+    }
+
   })
 }
 

@@ -35,10 +35,18 @@ app.get('/flashcard', (req, res) => {
 })
 
 app.get('/flashcard/:id', (req, res) => {
-  console.log('req.params.id', req.params.id)
+  // console.log('req.params.id', req.params.id)
   Cards.getById(req.params.id, (err, card) => {
     if(err) return res.status(400).send(err);
     res.send(card);
+  })
+})
+
+app.get('/answer/:id/:answer', (req, res) => {
+  // console.log('params.id', req.params.id);
+  Cards.checkAnswer(req.params.id, req.params.answer, (err, response) => {
+    if(err) return res.status(400).send(err);
+    res.send(response);
   })
 })
 
@@ -50,17 +58,17 @@ app.post('/flashcard', (req, res) => {
   })
 })
 
-app.delete('/flashcard', (req, res) => {
-  console.log('req.query.id:', req.query.id);
-  Cards.remove(req.query.id, err => {
+app.delete('/flashcard/:id', (req, res) => {
+  console.log('req.params.id:', req.params.id);
+  Cards.remove(req.params.id, err => {
     if(err) return res.status(400).send(err);
     res.send('card deleted');
   })
 })
 
-app.put('/flashcard', (req, res) => {
-  console.log('req.query.id:', req.query.id);
-  Cards.edit(req.query.id, req.body, err => {
+app.put('/flashcard/:id', (req, res) => {
+  console.log('req.params.id:', req.params.id);
+  Cards.edit(req.params.id, req.body, err => {
     if(err) return res.status(400).send(err);
     res.send('card updated');
   })
